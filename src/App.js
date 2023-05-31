@@ -1,24 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from 'react';
+import "./App.css";
+import Weather from "./components/weather";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
+    <React.Fragment>
+      <Weather />
+      <div className="footer">
+        Background Image by{" "}
+        <a href="https://www.freepik.com/free-vector/flat-design-monsoon-season-clouds-illustration_26922266.htm#query=weather%20background&position=14&from_view=keyword&track=ais">
+          Freepik
         </a>
-      </header>
-    </div>
+      </div>
+    </React.Fragment>
   );
 }
 

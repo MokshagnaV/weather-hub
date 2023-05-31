@@ -1,0 +1,33 @@
+.weather-container{
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 1rem;
+  text-align: center;
+}
+.location{
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  padding: 1rem;
+}
+.weather{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.temperature{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  font-size: 2rem;
+}
+.feedback{
+  text-align: center;
+  font-size: .7rem;
+  font-weight: 300;
+}
+.condition img{
+  width: 128px;
+}
