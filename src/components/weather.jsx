@@ -5,13 +5,16 @@ import config from "../config.json";
 import Search from "./search";
 
 class Weather extends Component {
-  state = { currentLocation: "", currentWeather: null, error:"" };
+  state = { currentLocation: "", currentWeather: null, error: "" };
 
   componentDidMount() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (res) => this.initialSetUp(res),
-        (error) => this.setState({error: error.message}),
+        (res) => {
+          const { latitude: lat, longitude: lon } = res.coords;
+          this.setWeather(`${lat},${lon}`);
+        },
+        (error) => this.setState({ error: error.message }),
         {
           enableHighAccuracy: true,
           timeout: 10000,
@@ -20,9 +23,8 @@ class Weather extends Component {
     }
   }
 
-  initialSetUp = async (res) => {
-    const { latitude: lat, longitude: lon } = res.coords;
-    const url = config.apiEndPoint + `q=${lat},${lon}`;
+  setWeather = async (location) => {
+    const url = config.apiEndPoint + `q=${location}`;
     const { data } = await axios.get(url);
     this.setState({
       currentLocation: data.location.name,
@@ -30,22 +32,18 @@ class Weather extends Component {
     });
   };
 
-  setLocation = (location) => {
-    this.setState({ currentLocation: location });
+  handleSearch = (searchData) => {
+    this.setWeather(searchData);
   };
-
-  setWeather = (weather) => {
-    this.setState({ currentWeather: weather });
-  };
-
-  handleInput = (e) => {
-    const val = e.currentTarget.value
-    console.log(val);
-  }
 
   render() {
     if (!this.state.currentWeather) {
-      return <div className="weather-container"><Search handleInput={this.handleInput}/> {this.state.error? this.state.error:"loading..!!"}</div>;
+      return (
+        <div className="weather-container">
+          <Search onSearch={this.handleSearch} />{" "}
+          {this.state.error ? this.state.error : "loading..!!"}
+        </div>
+      );
     }
     const { currentLocation: location } = this.state;
     const {
@@ -55,7 +53,7 @@ class Weather extends Component {
     } = this.state.currentWeather;
     return (
       <div className="weather-container">
-        <Search handleInput={this.handleInput}/>
+        <Search onSearch={this.handleSearch} />
         <div className="location">{location}</div>
         {this.state.currentWeather && (
           <div className="weather">
