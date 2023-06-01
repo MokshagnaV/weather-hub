@@ -31,3 +31,8 @@
 .condition img{
   width: 128px;
 }
+.pre-load{
+  padding: 1rem 0;
+  font-size: 1.4rem;
+  color: rgb(233, 64, 64);
+}

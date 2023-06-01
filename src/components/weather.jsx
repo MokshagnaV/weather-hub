@@ -3,6 +3,7 @@ import axios from "axios";
 import "./weather.css";
 import config from "../config.json";
 import Search from "./search";
+import WeatherData from "./weatherData";
 
 class Weather extends Component {
   state = { currentLocation: "", currentWeather: null, error: "" };
@@ -41,7 +42,7 @@ class Weather extends Component {
       return (
         <div className="weather-container">
           <Search onSearch={this.handleSearch} />{" "}
-          {this.state.error ? this.state.error : "loading..!!"}
+          <span className="pre-load ">{this.state.error ? this.state.error : "loading..!!"}</span>
         </div>
       );
     }
@@ -54,19 +55,13 @@ class Weather extends Component {
     return (
       <div className="weather-container">
         <Search onSearch={this.handleSearch} />
-        <div className="location">{location}</div>
-        {this.state.currentWeather && (
-          <div className="weather">
-            <div className="condition">
-              <img src={icon.replace("64x64", "128x128")} alt={conditionText} />
-            </div>
-            <div className="temperature">
-              <div className="temp-value">{temp}&#8451;</div>
-              <div className="temp-condition">{conditionText}</div>
-            </div>
-          </div>
-        )}
-        <div className="feedback">Last updated on {last_updated}</div>
+        <WeatherData
+          location={location}
+          temp={temp}
+          last_updated={last_updated}
+          icon={icon}
+          conditionText={conditionText}
+        />
       </div>
     );
   }
