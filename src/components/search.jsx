@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
-import config from "../config.json";
-import axios from "axios";
+import apiCalls from "../services/apiCalls";
 
 const Search = ({ onSearch }) => {
   const [search, setSearch] = useState(null);
@@ -17,8 +16,7 @@ const Search = ({ onSearch }) => {
         options: [],
       };
     }
-    const url = config.apiEndPointSearch + `q=${input}`;
-    const { data } = await axios.get(url);
+    const { data } = await apiCalls.getLocationSearchResults(input);
     return {
       options: data.map((city) => {
         return {

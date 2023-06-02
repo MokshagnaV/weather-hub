@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
 import "./weather.css";
-import config from "../config.json";
 import Search from "./search";
 import WeatherData from "./weatherData";
+import apiCalls from "../services/apiCalls";
 
 class Weather extends Component {
   state = {
@@ -30,16 +29,13 @@ class Weather extends Component {
   }
 
   async setBackground(conditionText) {
-    const url =
-      config.bgPicAPI + `&page=1&query=${conditionText}&orientation=landscape`;
-    const { data } = await axios.get(url);
+    const { data } = await apiCalls.getBackgroundResults(conditionText);
     const bg = data.results[parseInt(Math.random() * 10)].urls.regular;
     document.getElementById("root").style.backgroundImage = `url(${bg})`;
   }
 
   setWeather = async (location) => {
-    const url = config.apiEndPoint + `q=${location}`;
-    const { data } = await axios.get(url);
+    const { data } = await apiCalls.getWeatherResults(location);
     this.setState({
       currentLocation: data.location.name,
       currentWeather: data.current,
