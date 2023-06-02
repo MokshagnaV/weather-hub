@@ -6,7 +6,12 @@ import Search from "./search";
 import WeatherData from "./weatherData";
 
 class Weather extends Component {
-  state = { currentLocation: "", currentWeather: null, error: "" };
+  state = {
+    currentLocation: "",
+    currentWeather: null,
+    condition: "",
+    error: "",
+  };
 
   componentDidMount() {
     if (navigator.geolocation) {
@@ -24,12 +29,21 @@ class Weather extends Component {
     }
   }
 
+  async setBackground(conditionText) {
+    const url =
+      config.bgPicAPI + `&page=1&query=${conditionText}&orientation=landscape`;
+    const { data } = await axios.get(url);
+    const bg = data.results[parseInt(Math.random() * 10)].urls.regular;
+    document.getElementById("root").style.backgroundImage = `url(${bg})`;
+  }
+
   setWeather = async (location) => {
     const url = config.apiEndPoint + `q=${location}`;
     const { data } = await axios.get(url);
     this.setState({
       currentLocation: data.location.name,
       currentWeather: data.current,
+      condition: data.current.condition,
     });
   };
 
@@ -42,16 +56,16 @@ class Weather extends Component {
       return (
         <div className="weather-container">
           <Search onSearch={this.handleSearch} />{" "}
-          <span className="pre-load ">{this.state.error ? this.state.error : "loading..!!"}</span>
+          <span className="pre-load ">
+            {this.state.error ? this.state.error : "loading..!!"}
+          </span>
         </div>
       );
     }
     const { currentLocation: location } = this.state;
-    const {
-      temp_c: temp,
-      last_updated,
-      condition: { icon, text: conditionText },
-    } = this.state.currentWeather;
+    const { temp_c: temp, last_updated } = this.state.currentWeather;
+    const { icon, text: conditionText } = this.state.condition;
+    this.setBackground(conditionText);
     return (
       <div className="weather-container">
         <Search onSearch={this.handleSearch} />
