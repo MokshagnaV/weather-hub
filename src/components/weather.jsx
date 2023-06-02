@@ -9,6 +9,7 @@ class Weather extends Component {
     currentLocation: "",
     currentWeather: null,
     condition: "",
+    unit: "temp_c",
     error: "",
   };
 
@@ -30,7 +31,10 @@ class Weather extends Component {
 
   async setBackground(conditionText) {
     const { data } = await apiCalls.getBackgroundResults(conditionText);
-    const bg = data.results[parseInt(Math.random() * 10)].urls.regular;
+    const bgPic = data.results[parseInt(Math.random() * 10)];
+    const credits = `Photo by <a href="${bgPic.user.links.html}">${bgPic.user.name}</a> on <a href="${bgPic.links.html}">Unsplash</a>`;
+    document.querySelector(".credits").innerHTML = credits;
+    const bg = bgPic.urls.regular;
     document.getElementById("root").style.backgroundImage = `url(${bg})`;
   }
 
@@ -47,6 +51,10 @@ class Weather extends Component {
     this.setWeather(searchData);
   };
 
+  handleConvention = (e) => {
+    this.setState({ convention: e.currentTarget.value });
+  };
+
   render() {
     if (!this.state.currentWeather) {
       return (
@@ -59,15 +67,17 @@ class Weather extends Component {
       );
     }
     const { currentLocation: location } = this.state;
-    const { temp_c: temp, last_updated } = this.state.currentWeather;
+    const temp = this.state.currentWeather[this.state.unit];
+    const { last_updated } = this.state.currentWeather;
     const { icon, text: conditionText } = this.state.condition;
     this.setBackground(conditionText);
     return (
       <div className="weather-container">
-        <Search onSearch={this.handleSearch} />
+        <Search onSearch={this.handleSearch} onChoose={this.handleConvention} />
         <WeatherData
           location={location}
           temp={temp}
+          convention={this.state.unit}
           last_updated={last_updated}
           icon={icon}
           conditionText={conditionText}

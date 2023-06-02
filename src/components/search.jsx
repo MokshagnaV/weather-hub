@@ -1,8 +1,9 @@
+import React from "react";
 import { useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import apiCalls from "../services/apiCalls";
 
-const Search = ({ onSearch }) => {
+const Search = ({ onSearch, onChoose }) => {
   const [search, setSearch] = useState(null);
 
   const handleChange = (searchData) => {
@@ -28,13 +29,21 @@ const Search = ({ onSearch }) => {
   };
 
   return (
-    <AsyncPaginate
-      placeholder="Seacrh for City"
-      debounceTimeout={600}
-      value={search}
-      onChange={handleChange}
-      loadOptions={loadOptions}
-    />
+    <div className="search-bar">
+      <div className="search">
+        <AsyncPaginate
+          placeholder="Seacrh for City"
+          debounceTimeout={600}
+          value={search}
+          onChange={handleChange}
+          loadOptions={loadOptions}
+        />
+      </div>
+      <select name="convention" id="convention" onChange={onChoose}>
+        <option value="temp_c">Celsius</option>
+        <option value="temp_f">Fahrenheit</option>
+      </select>
+    </div>
   );
 };
 

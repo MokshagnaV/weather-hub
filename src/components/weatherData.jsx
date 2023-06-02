@@ -1,6 +1,13 @@
 import React from "react";
 
-const WeatherData = ({ location, icon, conditionText, temp, last_updated }) => {
+const WeatherData = ({
+  location,
+  icon,
+  conditionText,
+  temp,
+  convention,
+  last_updated,
+}) => {
   return (
     <React.Fragment>
       <div className="location">{location}</div>
@@ -9,7 +16,10 @@ const WeatherData = ({ location, icon, conditionText, temp, last_updated }) => {
           <img src={icon.replace("64x64", "128x128")} alt={conditionText} />
         </div>
         <div className="temperature">
-          <div className="temp-value">{temp}&#8451;</div>
+          <div className="temp-value">
+            {temp}
+            {convention === "temp_c" ? "°C" : "°F"}
+          </div>
           <div className="temp-condition">{conditionText}</div>
         </div>
       </div>
