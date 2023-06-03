@@ -45,6 +45,7 @@ class Weather extends Component {
       currentWeather: data.current,
       condition: data.current.condition,
     });
+    this.setBackground(data.current.condition.text);
   };
 
   handleSearch = (searchData) => {
@@ -52,7 +53,7 @@ class Weather extends Component {
   };
 
   handleConvention = (e) => {
-    this.setState({ convention: e.currentTarget.value });
+    this.setState({ unit: e.currentTarget.value });
   };
 
   render() {
@@ -70,7 +71,6 @@ class Weather extends Component {
     const temp = this.state.currentWeather[this.state.unit];
     const { last_updated } = this.state.currentWeather;
     const { icon, text: conditionText } = this.state.condition;
-    this.setBackground(conditionText);
     return (
       <div className="weather-container">
         <Search onSearch={this.handleSearch} onChoose={this.handleConvention} />
