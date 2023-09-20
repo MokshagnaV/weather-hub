@@ -15,6 +15,7 @@ class Weather extends Component {
 
   componentDidMount() {
     if (navigator.geolocation) {
+      console.log(navigator);
       navigator.geolocation.getCurrentPosition(
         (res) => {
           const { latitude: lat, longitude: lon } = res.coords;

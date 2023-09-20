@@ -1,7 +1,8 @@
 .weather-container {
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.582);
+  backdrop-filter: blur(8px);
   padding: 1rem;
   border-radius: 1rem;
   text-align: center;
@@ -44,7 +45,7 @@
 }
 #convention {
   border: 1px solid #cccccc;
-  background-color: transparent;
+  background-color: #fff;
   color: #8d8d8d;
   font-weight: 600;
   width: fit-content;
